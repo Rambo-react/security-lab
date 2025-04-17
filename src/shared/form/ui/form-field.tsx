@@ -1,3 +1,5 @@
+import { Label } from '@/shared/ui/label'
+
 type Props<T> = {
   name: keyof T
   label: string
@@ -16,7 +18,7 @@ export const FormField = <T extends Record<string, unknown>>({
   render,
 }: Props<T>) => (
   <div className='space-y-2'>
-    <label htmlFor={String(name)}>{label}</label>
+    <Label htmlFor={String(name)}>{label}</Label>
     {render({ value, onChange, error })}
     <p className='text-red-600'>{error}</p>
   </div>

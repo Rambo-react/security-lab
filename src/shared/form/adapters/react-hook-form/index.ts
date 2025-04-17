@@ -1,4 +1,4 @@
-import { FieldErrors, FieldValues, useForm } from 'react-hook-form'
+import { DefaultValues, FieldErrors, FieldValues, useForm } from 'react-hook-form'
 import { RHFAdapter } from './types'
 import { ZodSchema } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,8 +12,16 @@ const mapErrors = <T extends FieldValues>(errors: FieldErrors<T>): Record<keyof 
     {} as Record<keyof T, string | undefined>
   )
 
-export const useRHFAdapter = <T extends FieldValues>(schema: ZodSchema<T>): RHFAdapter<T> => {
-  const { control, register, formState, handleSubmit, watch, setValue } = useForm<T>({ resolver: zodResolver(schema) })
+export const useRHFAdapter = <T extends FieldValues>(
+  schema: ZodSchema<T>,
+  defaultValues: DefaultValues<T>
+): RHFAdapter<T> => {
+  const { control, register, formState, handleSubmit, watch, setValue } = useForm<T>({
+    resolver: zodResolver(schema),
+    defaultValues,
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  })
 
   return {
     values: watch(),
