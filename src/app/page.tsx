@@ -1,10 +1,11 @@
 'use client'
-import { UserCreateForm } from '@/features/user/create-form/ui/user-create-form'
+
+import { CreateUserModalWindow } from '@/widgets/createUserModalWindow/ui/createUserModalWindow'
 
 export default function Home() {
   return (
     <div>
-      <UserCreateForm />
+      <CreateUserModalWindow />
     </div>
   )
 }

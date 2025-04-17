@@ -23,7 +23,14 @@ export const useCreateForm = <T extends z.ZodType>({ stepCount = 1, schema, onSu
     }
   })
 
-  const nextStep = () => setStep((prev) => Math.min(prev + 1, stepCount))
+  const nextStep = () => {
+    const hasErrors = Object.values(form.errors).some((error) => error !== undefined)
+
+    if (hasErrors) {
+      return
+    }
+    setStep((prev) => Math.min(prev + 1, stepCount))
+  }
 
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1))
 

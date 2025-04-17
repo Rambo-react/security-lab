@@ -1,6 +1,6 @@
 'use client'
 import { createContext, ReactNode, useContext, useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './dialog'
 import { cn } from '@/shared/lib/utils'
 
 type ModalWindowContextType = {
@@ -8,17 +8,19 @@ type ModalWindowContextType = {
   open: () => void
   close: () => void
   title: string
+  description: string
 }
 
 type ModalWindowProps = {
   children: ReactNode
   renderTrigger: (open: () => void) => ReactNode
   title: string
+  description?: string
 }
 
 const ModalWindowContext = createContext<ModalWindowContextType | null>(null)
 
-export const ModalWindow = ({ children, title, renderTrigger }: ModalWindowProps) => {
+export const ModalWindow = ({ children, title, description = '', renderTrigger }: ModalWindowProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -28,6 +30,7 @@ export const ModalWindow = ({ children, title, renderTrigger }: ModalWindowProps
         open: () => setIsOpen(true),
         close: () => setIsOpen(false),
         title,
+        description,
       }}
     >
       {renderTrigger(() => setIsOpen(true))}
@@ -42,13 +45,14 @@ type ModalWindowContentProps = {
 }
 
 const ModalWindowContent = ({ children, className = '' }: ModalWindowContentProps) => {
-  const { isOpen, close, title } = useModalWindow()
+  const { isOpen, close, title, description } = useModalWindow()
 
   return (
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent className={cn('sm:max-w-[425px]', className)}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {children}
       </DialogContent>

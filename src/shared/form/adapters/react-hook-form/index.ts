@@ -19,8 +19,7 @@ export const useRHFAdapter = <T extends FieldValues>(
   const { control, register, formState, handleSubmit, watch, setValue } = useForm<T>({
     resolver: zodResolver(schema),
     defaultValues,
-    mode: 'onChange',
-    reValidateMode: 'onChange',
+    mode: 'onBlur',
   })
 
   return {
