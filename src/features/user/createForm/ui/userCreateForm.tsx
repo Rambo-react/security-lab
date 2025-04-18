@@ -5,10 +5,21 @@ import { createUserSchema } from '../model/schema'
 import { Input } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
 
-export const UserCreateForm = () => {
+type Props = {
+  onSuccess?: () => void
+}
+
+export const UserCreateForm = ({ onSuccess }: Props) => {
   const handleSumbit = (data: CreateUserFormData) => {
-    console.log(data)
+    try {
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      onSuccess?.()
+    }
   }
+
   const {
     form: { errors, register },
     isSubmitting,

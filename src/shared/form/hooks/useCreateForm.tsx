@@ -1,4 +1,4 @@
-import { useRHFAdapter } from '@/shared/form/adapters/react-hook-form'
+import { useRHFAdapter } from '@/shared/form/model/adapters/react-hook-form'
 import { useState } from 'react'
 import { z } from 'zod'
 

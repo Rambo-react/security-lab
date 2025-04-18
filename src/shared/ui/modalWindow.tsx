@@ -18,6 +18,11 @@ type ModalWindowProps = {
   description?: string
 }
 
+type ModalWindowContentProps = {
+  children: (close: () => void) => ReactNode
+  className?: string
+}
+
 const ModalWindowContext = createContext<ModalWindowContextType | null>(null)
 
 export const ModalWindow = ({ children, title, description = '', renderTrigger }: ModalWindowProps) => {
@@ -39,11 +44,6 @@ export const ModalWindow = ({ children, title, description = '', renderTrigger }
   )
 }
 
-type ModalWindowContentProps = {
-  children: ReactNode
-  className?: string
-}
-
 const ModalWindowContent = ({ children, className = '' }: ModalWindowContentProps) => {
   const { isOpen, close, title, description } = useModalWindow()
 
@@ -54,7 +54,7 @@ const ModalWindowContent = ({ children, className = '' }: ModalWindowContentProp
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        {children}
+        {children(close)}
       </DialogContent>
     </Dialog>
   )

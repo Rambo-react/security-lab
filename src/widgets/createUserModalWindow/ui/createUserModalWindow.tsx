@@ -6,9 +6,7 @@ import React from 'react'
 export const CreateUserModalWindow = () => {
   return (
     <ModalWindow title='Create user' renderTrigger={(open) => <Button onClick={open}>Open</Button>}>
-      <ModalWindow.Content>
-        <UserCreateForm />
-      </ModalWindow.Content>
+      <ModalWindow.Content>{(close) => <UserCreateForm onSuccess={close} />}</ModalWindow.Content>
     </ModalWindow>
   )
 }
