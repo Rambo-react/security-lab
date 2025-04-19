@@ -1,16 +1,8 @@
-import { DefaultValues, FieldErrors, FieldValues, useForm } from 'react-hook-form'
-import { RHFAdapter } from './types'
+import { DefaultValues, FieldValues, useForm } from 'react-hook-form'
+
 import { ZodSchema } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-const mapErrors = <T extends FieldValues>(errors: FieldErrors<T>): Record<keyof T, string | undefined> =>
-  Object.entries(errors).reduce(
-    (acc, [key, value]) => {
-      acc[key as keyof T] = value?.message as string
-      return acc
-    },
-    {} as Record<keyof T, string | undefined>
-  )
+import { RHFAdapter } from '../model/rhfTypes'
 
 export const useRHFAdapter = <T extends FieldValues>(
   schema: ZodSchema<T>,
@@ -24,7 +16,7 @@ export const useRHFAdapter = <T extends FieldValues>(
 
   return {
     values: watch(),
-    errors: mapErrors(formState.errors),
+    formState,
     setFieldValue: setValue,
     handleSubmit,
     control,

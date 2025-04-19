@@ -1,29 +1,10 @@
 'use client'
-import { createContext, ReactNode, useContext, useState } from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './dialog'
+import { useState } from 'react'
+import { ModalWindowContext } from '../model/context'
+import { ModalWindowContentProps, ModalWindowProps } from '../model/types'
+import { useModalWindow } from '../hooks/useModalWindow'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui/dialog'
 import { cn } from '@/shared/lib/utils'
-
-type ModalWindowContextType = {
-  isOpen: boolean
-  open: () => void
-  close: () => void
-  title: string
-  description: string
-}
-
-type ModalWindowProps = {
-  children: ReactNode
-  renderTrigger: (open: () => void) => ReactNode
-  title: string
-  description?: string
-}
-
-type ModalWindowContentProps = {
-  children: (close: () => void) => ReactNode
-  className?: string
-}
-
-const ModalWindowContext = createContext<ModalWindowContextType | null>(null)
 
 export const ModalWindow = ({ children, title, description = '', renderTrigger }: ModalWindowProps) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -58,12 +39,6 @@ const ModalWindowContent = ({ children, className = '' }: ModalWindowContentProp
       </DialogContent>
     </Dialog>
   )
-}
-
-const useModalWindow = () => {
-  const context = useContext(ModalWindowContext)
-  if (!context) throw new Error('Используйте внутри ModalWindow.')
-  return context
 }
 
 ModalWindow.Content = ModalWindowContent

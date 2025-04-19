@@ -1,16 +1,17 @@
-import { FormField } from '@/shared/form/ui/formField'
+import { FormField } from '@/shared/lib/forms/ui/formField'
 import { CreateUserFormData } from '../model/schema'
-import { useCreateForm } from '@/shared/form/hooks/useCreateForm'
+import { useCreateForm } from '@/shared/lib/forms/hooks/useCreateForm'
 import { createUserSchema } from '../model/schema'
 import { Input } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
+import { normalizeError } from '@/shared/lib/forms'
 
 type Props = {
   onSuccess?: () => void
 }
 
 export const UserCreateForm = ({ onSuccess }: Props) => {
-  const handleSumbit = (data: CreateUserFormData) => {
+  const onSubmit = (data: CreateUserFormData) => {
     try {
       console.log(data)
     } catch (error) {
@@ -21,35 +22,36 @@ export const UserCreateForm = ({ onSuccess }: Props) => {
   }
 
   const {
-    form: { errors, register },
-    isSubmitting,
-    onSubmit,
+    form: {
+      register,
+      handleSubmit,
+      formState: { isSubmitting, errors },
+    },
   } = useCreateForm({
     schema: createUserSchema,
-    onSubmit: handleSumbit,
     defaultValues: { email: '', name: '', password: '' },
   })
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <FormField<CreateUserFormData>
         name='name'
         label='Имя'
-        error={errors.name}
+        error={normalizeError(errors.name)}
         render={() => <Input {...register('name')} placeholder='Введите имя' />}
       />
 
       <FormField<CreateUserFormData>
         name='email'
         label='Email'
-        error={errors.email}
+        error={normalizeError(errors.email)}
         render={() => <Input {...register('email')} placeholder='Введите email' />}
       />
 
       <FormField<CreateUserFormData>
         name='password'
         label='password'
-        error={errors.password}
+        error={normalizeError(errors.password)}
         render={() => <Input {...register('password')} placeholder='Введите пароль' />}
       />
 
