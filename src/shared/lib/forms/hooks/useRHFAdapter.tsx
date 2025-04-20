@@ -8,7 +8,7 @@ export const useRHFAdapter = <T extends FieldValues>(
   schema: ZodSchema<T>,
   defaultValues: DefaultValues<T>
 ): RHFAdapter<T> => {
-  const { control, register, formState, handleSubmit, watch, setValue } = useForm<T>({
+  const { register, formState, handleSubmit, watch } = useForm<T>({
     resolver: zodResolver(schema),
     defaultValues,
     mode: 'onBlur',
@@ -16,10 +16,8 @@ export const useRHFAdapter = <T extends FieldValues>(
 
   return {
     values: watch(),
-    formState,
-    setFieldValue: setValue,
     handleSubmit,
-    control,
     register,
+    formState,
   }
 }

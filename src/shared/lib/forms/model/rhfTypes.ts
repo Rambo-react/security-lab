@@ -1,9 +1,10 @@
-import { UseFormReturn, FieldValues, UseFormRegister, Control, FormState } from 'react-hook-form'
-import { BaseFormAdapter } from './types'
+import { FieldValues, UseFormRegister, FormState, UseFormRegisterReturn } from 'react-hook-form'
 
-export type RHFAdapter<T extends FieldValues> = BaseFormAdapter<T> & {
-  control: Control<T>
+export type RHFAdapter<T extends FieldValues> = {
+  values: T
   register: UseFormRegister<T>
-  setFieldValue: UseFormReturn<T>['setValue']
   formState: FormState<T>
+  handleSubmit: (fn: (data: T) => void) => () => void
 }
+
+export type FormFieldType = UseFormRegisterReturn

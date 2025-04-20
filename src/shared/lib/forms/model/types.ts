@@ -1,4 +1,8 @@
-export type BaseFormAdapter<T extends Record<string, unknown>> = {
-  values: T
-  handleSubmit: (fn: (data: T) => void) => () => void
+import { RHFAdapter } from './rhfTypes'
+
+export type FormContextType<T extends Record<string, unknown>> = {
+  currentStep: number
+  nextStep: () => void
+  prevStep: () => void
+  form: RHFAdapter<T>
 }
